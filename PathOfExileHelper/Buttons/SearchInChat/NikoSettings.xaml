@@ -1,0 +1,15 @@
+﻿<Window x:Class="PathOfExileHelper.Buttons.SearchInChat.NikoSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PathOfExileHelper.Buttons.SearchInChat"
+        mc:Ignorable="d"
+        Title="NikoSettings" Height="112.301" Width="302.964" MaxHeight="270" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Grid HorizontalAlignment="Left" Width="297" Height="84" VerticalAlignment="Top">
+        <CheckBox Content="Single" HorizontalAlignment="Left" Margin="37,19,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=Single}"/>
+        <CheckBox Content="Double" HorizontalAlignment="Left" Margin="115,19,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=Double}"/>
+        <CheckBox Content="Triple" HorizontalAlignment="Left" Margin="200,19,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=Triple}"/>
+        <Button x:Name="ApplyButton" Content="Apply" HorizontalAlignment="Left" Margin="105,54,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>
