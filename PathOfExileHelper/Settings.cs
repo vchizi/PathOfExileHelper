@@ -19,6 +19,7 @@ namespace PathOfExileHelper
 
         public Buttons.Autobomb.Settings AutobombSettings { get; set; }
         public Buttons.Immortality.Settings ImmortalitySettings { get; set; }
+        public Buttons.Immortality.FlaskUsageSettings FlaskUsageSettings { get; set; }
         public Buttons.SearchInChat.Settings SearchInChatSettings { get; set; }
 
         public static Settings Load()
@@ -49,6 +50,9 @@ namespace PathOfExileHelper
 
             if (ImmortalitySettings != null)
                 ImmortalitySettings.settings = this;
+
+            if (FlaskUsageSettings != null)
+                FlaskUsageSettings.settings = this;
 
             if (SearchInChatSettings != null)
                 SearchInChatSettings.settings = this;

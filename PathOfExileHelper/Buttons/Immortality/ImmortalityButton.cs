@@ -2,6 +2,7 @@
 using PathOfExileHelper.Services;
 using PathOfExileHelper.Utils;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
 using WindowsInput;
@@ -11,24 +12,37 @@ namespace PathOfExileHelper.Buttons.Immortality
 {
     public class ImmortalityButton : Button
     {
-        private readonly Settings Settings;
+        //private readonly Settings Settings;
+        private readonly FlaskUsageSettings FlaskUsageSettings;
 
-        private Timer Timer;
+        private readonly IFlaskUsageHandler FlaskUsageHandler;
 
         private ImmortalitySettings ImmortalitySettings;
 
         public ImmortalityButton(PathOfExileHelper.Settings settings) : base()
         {
-            Settings = Settings.Load(settings);
-            if (Settings.Anchor == null || Settings.UseFlask == null)
+            Activated = true;
+
+            FlaskUsageSettings = FlaskUsageSettings.Load(settings);
+            if (FlaskUsageSettings.SettingsList.Count == 0)
+            {
                 SettingsRequired = true;
+                Activated = false;
+            }
 
             ButtonControl.ControlButton.Click += ButtonClick;
             ButtonControl.ControlButton.MouseRightButtonUp += RightButtonClick;
+
+            FlaskUsageHandler = new ThreadFlaskUsageHandler(FlaskUsageSettings.SettingsList, settings);
+
+            if (Activated)
+            {
+                FlaskUsageHandler.Start();
+            }
         }
         public void ButtonClick(object sender, RoutedEventArgs e)
         {
-            if (Settings.Anchor == null || Settings.UseFlask == null)
+            if (FlaskUsageSettings.SettingsList.Count == 0)
             {
                 OpenSettingsWindow();
 
@@ -37,11 +51,11 @@ namespace PathOfExileHelper.Buttons.Immortality
 
             if (Activated)
             {
-                StartTimer();
+                FlaskUsageHandler.Start();
             }
             else
             {
-                StopTimer();
+                FlaskUsageHandler.Stop();
             }
         }
 
@@ -54,16 +68,11 @@ namespace PathOfExileHelper.Buttons.Immortality
         {
             if (ImmortalitySettings == null)
             {
-                ImmortalitySettings = new ImmortalitySettings(Settings);
+                ImmortalitySettings = new ImmortalitySettings(FlaskUsageSettings);
                 ImmortalitySettings.Closed += SettingWindowClosed;
 
                 ImmortalitySettings.Show();
             } 
-            else
-            {
-                ImmortalitySettings.Close();
-                ImmortalitySettings = null;
-            }
         }
 
         protected override FontAwesomeIcon Icon()
@@ -73,41 +82,17 @@ namespace PathOfExileHelper.Buttons.Immortality
 
         private void SettingWindowClosed(object sender, EventArgs e)
         {
-            if (Settings.Anchor != null && Settings.UseFlask != null)
+            if (FlaskUsageSettings.SettingsList.Count > 0)
+            {
                 SettingsRequired = false;
-        }
 
-        private void StartTimer()
-        {
-            Timer = new Timer(1)
-            {
-                AutoReset = true
-            };
-
-            Timer.Elapsed += delegate (Object o, ElapsedEventArgs es)
-            {
-                if (POEWindow.IsWindowActive() && Settings.Anchor.Pixel == PixelColor.GetColor(Settings.Anchor.X, Settings.Anchor.Y) && Settings.UseFlask.Pixel != PixelColor.GetColor(Settings.UseFlask.X, Settings.UseFlask.Y))
+                if (Activated)
                 {
-                    InputSimulator iSim = new InputSimulator();
-                    iSim.Keyboard.KeyPress(VirtualKeyCode.VK_1);
-
-                    iSim = null;
-
-                    Timer.Stop();
-                    System.Threading.Thread.Sleep(50);
-                    Timer.Start();
+                    FlaskUsageHandler.Stop();
+                    FlaskUsageHandler.Start();
                 }
-            };
-            Timer.Start();
-        }
-
-        private void StopTimer()
-        {
-            if (Timer != null)
-            {
-                Timer.Stop();
-                Timer.Close();
             }
+            ImmortalitySettings = null;
         }
     }
 }

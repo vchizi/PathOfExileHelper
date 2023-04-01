@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>PathOfExileHelper</RootNamespace>
     <AssemblyName>PathOfExileHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -29,6 +29,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -88,6 +89,13 @@
     </Compile>
     <Compile Include="Buttons\Autobomb\Settings.cs" />
     <Compile Include="Buttons\Button.cs" />
+    <Compile Include="Buttons\Immortality\FlaskUsageControl.xaml.cs">
+      <DependentUpon>FlaskUsageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons\Immortality\FlaskUsageSettings.cs" />
+    <Compile Include="Buttons\Immortality\IFlaskUsageHandler.cs" />
+    <Compile Include="Buttons\Immortality\ThreadFlaskUsageHandler.cs" />
+    <Compile Include="Buttons\Immortality\TimerFlaskUsageHandler.cs" />
     <Compile Include="Buttons\SearchInChat\EventHandlers\AutojoinGlobalChannel.cs" />
     <Compile Include="Buttons\SearchInChat\GlobalChatParameters.cs" />
     <Compile Include="Buttons\SearchInChat\NikoSettings.xaml.cs">
@@ -130,6 +138,10 @@
     <Compile Include="Utils\NoActiveWindow.cs" />
     <Compile Include="Utils\PixelColor.cs" />
     <Page Include="Buttons\Autobomb\AutobombSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Buttons\Immortality\FlaskUsageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

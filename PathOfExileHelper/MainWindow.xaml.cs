@@ -33,13 +33,13 @@ namespace PathOfExileHelper
 
             ApplySettings(Settings);
 
-            MessagesWindow MessagesWindow = new MessagesWindow(MessagesWindowSettings.Load(Settings));
-            MessagesWindow.Show();
+            //MessagesWindow MessagesWindow = new MessagesWindow(MessagesWindowSettings.Load(Settings));
+            //MessagesWindow.Show();
 
-            ButtonsStack.Children.Add(new AutobombButton(Settings).GetButton());
+            //ButtonsStack.Children.Add(new AutobombButton(Settings).GetButton());
             ButtonsStack.Children.Add(new ImmortalityButton(Settings).GetButton()); 
             ButtonsStack.Children.Add(new SyndicateAndHeistButton().GetButton());
-            ButtonsStack.Children.Add(new SearchInChatButton(Settings, MessagesWindow).GetButton());
+            //ButtonsStack.Children.Add(new SearchInChatButton(Settings, MessagesWindow).GetButton());
         }
 
         private void ShowMainSettings()

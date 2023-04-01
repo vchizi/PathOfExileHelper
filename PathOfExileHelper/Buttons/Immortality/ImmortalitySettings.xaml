@@ -6,21 +6,30 @@
         xmlns:local="clr-namespace:PathOfExileHelper.Buttons.Immortality"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="ImmortalitySettings" Height="245.31" Width="282.301" WindowStyle="ToolWindow" Topmost="True" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
-    <Grid HorizontalAlignment="Left" Width="276" Height="217" VerticalAlignment="Top">
-        <Label Content="HP Anchor" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="AnchorColorButton" HorizontalAlignment="Left" Margin="230,24,0,0" VerticalAlignment="Top" Width="24" Height="23" fa:Awesome.Content="Eyedropper" FontSize="20" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Click="AnchorColorButton_Click" />
-        <Label Content="Use Flask" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="UseFlaskColorButton" HorizontalAlignment="Left" Margin="230,107,0,0" VerticalAlignment="Top" Width="24" Height="23" fa:Awesome.Content="Eyedropper" FontSize="20" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Click="UseFlaskColorButton_Click" />
-        <Button Content="Save" HorizontalAlignment="Left" Margin="148,153,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button x:Name="Highlight" Content="Higlight" HorizontalAlignment="Left" Height="20" Margin="45,153,0,0" VerticalAlignment="Top" Width="72" Click="Highlight_Click"/>
-        <Label Content="X" HorizontalAlignment="Left" Margin="82,20,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="AnchorXText" HorizontalAlignment="Left" Height="23" Margin="99,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
-        <Label Content="Y" HorizontalAlignment="Left" Margin="148,20,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="AnchorYText" HorizontalAlignment="Left" Height="23" Margin="170,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
-        <Label Content="X" HorizontalAlignment="Left" Margin="82,102,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="UseFlaskXText" HorizontalAlignment="Left" Height="23" Margin="99,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
-        <Label Content="Y" HorizontalAlignment="Left" Margin="148,102,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="UseFlaskYText" HorizontalAlignment="Left" Height="23" Margin="170,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
+        Title="ImmortalitySettings" Height="298.46" Width="282.301" WindowStyle="ToolWindow" Topmost="True" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Grid Height="Auto" Width="Auto" Margin="0,0,22,37">
+        <StackPanel x:Name="FlaskUsagePanel" Orientation="Horizontal">
+
+        </StackPanel>
+       <!-- <Grid x:Name="ImmortalityGrid" Visibility="Hidden" >
+            <Label Content="HP Anchor" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="AnchorColorButton" HorizontalAlignment="Left" Margin="230,66,0,0" VerticalAlignment="Top" Width="24" Height="23" fa:Awesome.Content="Eyedropper" FontSize="20" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Click="AnchorColorButton_Click" />
+            <Label Content="Use Flask" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="UseFlaskColorButton" HorizontalAlignment="Left" Margin="230,107,0,0" VerticalAlignment="Top" Width="24" Height="23" fa:Awesome.Content="Eyedropper" FontSize="20" TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Click="UseFlaskColorButton_Click" />
+            <Button Content="Save" HorizontalAlignment="Left" Margin="148,153,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+            <Button x:Name="Highlight" Content="Higlight" HorizontalAlignment="Left" Height="20" Margin="45,153,0,0" VerticalAlignment="Top" Width="72" Click="Highlight_Click"/>
+            <Label Content="X" HorizontalAlignment="Left" Margin="82,62,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="AnchorXText" HorizontalAlignment="Left" Height="23" Margin="99,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
+            <Label Content="Y" HorizontalAlignment="Left" Margin="148,62,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="AnchorYText" HorizontalAlignment="Left" Height="23" Margin="170,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
+            <Label Content="X" HorizontalAlignment="Left" Margin="82,102,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="UseFlaskXText" HorizontalAlignment="Left" Height="23" Margin="99,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
+            <Label Content="Y" HorizontalAlignment="Left" Margin="148,102,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="UseFlaskYText" HorizontalAlignment="Left" Height="23" Margin="170,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44"/>
+            <Label Content="Timeout" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="TimeoutText" HorizontalAlignment="Left" Height="23" Margin="99,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="115"/>
+        </Grid> -->
+        <Button x:Name="AddButton" Content="Add" HorizontalAlignment="Right" Margin="6,238,0,-25" VerticalAlignment="Top" Width="75" Click="AddButton_Click" />
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Height="20" Margin="33,238,0,-25" VerticalAlignment="Top" Width="75" Click="SaveButton_Click"/>
     </Grid>
 </Window>

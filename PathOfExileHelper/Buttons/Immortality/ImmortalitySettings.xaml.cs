@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using WindowsInput.Native;
 
 namespace PathOfExileHelper.Buttons.Immortality
 {
@@ -15,165 +16,40 @@ namespace PathOfExileHelper.Buttons.Immortality
     {
         private Window Window;
 
-        readonly Settings Settings;
+        readonly FlaskUsageSettings FlaskUsageSettings;
 
-        private Anchor AnchorSettings;
-
-        private UseFlask UseFlaskSettings;
-
-        public ImmortalitySettings(Settings settings)
+        public ImmortalitySettings(FlaskUsageSettings settings)
         {
             InitializeComponent();
 
-            Settings = settings;
-            ApplySettings(settings);
+            FlaskUsageSettings = settings;
+
+            if (settings.SettingsList.Count > 0)
+            {
+                foreach (var item in settings.SettingsList)
+                {
+                    FlaskUsageControl flaskUsageControl = new FlaskUsageControl(item);
+
+                    flaskUsageControl.CopyAnchor.Click += CopyAnchor_Click;
+
+                    FlaskUsagePanel.Children.Add(flaskUsageControl);
+                }
+            } else
+            {
+                FlaskUsagePanel.Children.Add(CreateFlaskUsageControl());
+            }
 
             Closed += SettingWindowClosed;
         }
 
-        private void ApplySettings(Settings settings)
+        private void CopyAnchor_Click(object sender, RoutedEventArgs e)
         {
-            if (settings.Anchor != null)
-            {
-                AnchorXText.Text = settings.Anchor.X.ToString();
-                AnchorYText.Text = settings.Anchor.Y.ToString();
-                AnchorColorButton.Foreground = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(PixelColor.GetHtmlColor(settings.Anchor.Pixel)));
+            FlaskUsageControl control = (FlaskUsageControl)((Grid)((Control)sender).Parent).Parent;
 
-                AnchorSettings = (Anchor)settings.Anchor.Clone();
+            foreach (FlaskUsageControl item in FlaskUsagePanel.Children)
+            {
+                item.updateAnchor((Anchor)control.AnchorSettings.Clone());
             }
-            if (settings.UseFlask != null)
-            {
-                UseFlaskXText.Text = settings.UseFlask.X.ToString();
-                UseFlaskYText.Text = settings.UseFlask.Y.ToString();
-                UseFlaskColorButton.Foreground = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(PixelColor.GetHtmlColor(settings.UseFlask.Pixel)));
-
-                UseFlaskSettings = (UseFlask)settings.UseFlask.Clone();
-            }
-        }
-
-        private void AnchorColorButton_Click(object sender, RoutedEventArgs e)
-        {
-            MouseHook.Start();
-            MouseHook.MouseAction += AnchorEvent;
-        }
-
-        private void UseFlaskColorButton_Click(object sender, RoutedEventArgs e)
-        {
-            MouseHook.Start();
-            MouseHook.MouseAction += UseFlaskEvent;
-        }
-
-        private void AnchorEvent(object sender, MouseClickEvent e) { 
-            AnchorXText.Text = e.X.ToString();
-            AnchorYText.Text = e.Y.ToString();
-
-            var Pixel = PixelColor.GetColor(e.X, e.Y);
-            AnchorSettings = new Anchor()
-            {
-                X = e.X,
-                Y = e.Y,
-                Pixel = Pixel
-            };
-
-            AnchorColorButton.Foreground = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(PixelColor.GetHtmlColor(Pixel)));
-
-            MouseHook.MouseAction -= AnchorEvent;
-            MouseHook.Stop();
-        }
-
-        private void UseFlaskEvent(object sender, MouseClickEvent e)
-        {
-            UseFlaskXText.Text = e.X.ToString();
-            UseFlaskYText.Text = e.Y.ToString();
-
-            var Pixel = PixelColor.GetColor(e.X, e.Y);
-            UseFlaskSettings = new UseFlask()
-            {
-                X = e.X,
-                Y = e.Y,
-                Pixel = Pixel
-            };
-
-            UseFlaskColorButton.Foreground = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(PixelColor.GetHtmlColor(Pixel)));
-
-            MouseHook.MouseAction -= UseFlaskEvent;
-            MouseHook.Stop();
-        }
-
-        private void Highlight_Click(object sender, RoutedEventArgs e)
-        {
-            if (Window == null)
-            {
-                if (AnchorXText.Text == "" || AnchorYText.Text == "" || UseFlaskXText.Text == "" || UseFlaskYText.Text == "")
-                {
-                    return;
-                }
-
-                Window = new Window
-                {
-                    Background = System.Windows.Media.Brushes.Transparent,
-                    WindowStyle = WindowStyle.None,
-                    Topmost = true,
-                    ResizeMode = ResizeMode.NoResize,
-                    AllowsTransparency = true,
-                    ShowInTaskbar = false,
-                    WindowState = WindowState.Maximized,
-                };
-
-                int AnchorX = int.Parse(AnchorXText.Text);
-                int AnchorY = int.Parse(AnchorYText.Text);
-                System.Windows.Shapes.Rectangle AnchorRectangle = new System.Windows.Shapes.Rectangle
-                {
-                    Width = 21,
-                    Height = 21,
-                    Stroke = System.Windows.Media.Brushes.Green,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    StrokeThickness = 3
-                };
-
-                int UseFlaskX = int.Parse(UseFlaskXText.Text);
-                int UseFlaskY = int.Parse(UseFlaskYText.Text);
-                var UseFlaskLine = new Line
-                {
-                    Stroke = System.Windows.Media.Brushes.Green,
-                    X1 = UseFlaskX - 50,
-                    X2 = UseFlaskX + 50,
-                    Y1 = UseFlaskY + 3,
-                    Y2 = UseFlaskY + 3,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    StrokeThickness = 3
-                };
-
-                Canvas canvas = new Canvas();
-
-                canvas.Children.Add(AnchorRectangle);
-                Canvas.SetTop(AnchorRectangle, AnchorY - 8);
-                Canvas.SetLeft(AnchorRectangle, AnchorX - 8);
-                canvas.Children.Add(UseFlaskLine);
-
-                Window.Content = canvas;
-
-                Window.Show();
-            } 
-            else
-            {
-                Window.Close();
-                Window = null;
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (AnchorSettings != null && UseFlaskSettings != null)
-            {
-                Settings.Anchor = AnchorSettings;
-                Settings.UseFlask = UseFlaskSettings;
-                Settings.Save();
-            }
-
-            Close();
         }
 
         private void SettingWindowClosed(object sender, EventArgs e)
@@ -185,6 +61,37 @@ namespace PathOfExileHelper.Buttons.Immortality
             }
         }
 
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlaskUsageSettings.SettingsList.Clear();
+            foreach (FlaskUsageControl control in FlaskUsagePanel.Children)
+            {
+                control.Settings.Timeout = int.Parse(control.TimeoutText.Text);
+                control.Settings.Active = control.ActiveCheckBox.IsChecked == true;
+                control.Settings.Anchor = control.AnchorSettings;
+                control.Settings.UseFlask = control.UseFlaskSettings;
+                control.Settings.KeyToPress = (VirtualKeyCode)Enum.Parse(typeof(VirtualKeyCode), control.Keys.SelectedValue.ToString());
+                FlaskUsageSettings.SettingsList.Add(control.Settings);
+            }
+
+            FlaskUsageSettings.Save();
+            Close();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlaskUsagePanel.Children.Add(CreateFlaskUsageControl());
+        }
+
+        private FlaskUsageControl CreateFlaskUsageControl()
+        {
+            var setting = new Settings();
+            FlaskUsageControl FlaskUsageControl = new FlaskUsageControl(setting);
+
+            FlaskUsageSettings.SettingsList.Add(setting);
+
+            return FlaskUsageControl;
+        }
     }
 
 }

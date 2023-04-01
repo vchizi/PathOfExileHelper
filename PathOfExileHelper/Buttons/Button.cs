@@ -9,7 +9,7 @@ namespace PathOfExileHelper.Buttons
     public abstract class Button : IButton
     {
         protected readonly MainControlButton ButtonControl;
-        private bool _activated = false;
+        protected bool _activated = false;
         public bool Activated {
             get
             {
@@ -35,7 +35,7 @@ namespace PathOfExileHelper.Buttons
             ButtonControl.ControlButton.Click += Activate;
         }
 
-        private void ActivatedChanged()
+        protected void ActivatedChanged()
         {
             if (Activated)
             {
